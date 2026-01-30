@@ -1,0 +1,8 @@
+{
+  "providers": {
+    "google-chat": {
+      "enabled": true,
+      "credentials": "/root/clawd/google-key.json"
+    }
+  }
+}
