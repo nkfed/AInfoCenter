@@ -54,6 +54,18 @@ chmod +x skills/duckduckgo-search/duckduckgo_search.py
 ---
 
 ## Крок 3: Встановлення Python залежностей
+### ⚠️ Ubuntu 24.04 / Python 3.12: PEP 668 Issue
+
+На Ubuntu 24.04+ з Python 3.12 ви можете отримати помилку:
+error: externally-managed-environment
+
+**Рішення (Production quick fix):**
+```bash
+pip3 install --break-system-packages ddgs
+
+Верифікація:
+python3 -c "from ddgs import DDGS; print('✅ ddgs installed')"
+
 
 ```bash
 # Перевірити версію Python
