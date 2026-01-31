@@ -1,0 +1,5 @@
+# Requirements for DuckDuckGo Search Skill
+
+ddgs>=1.0.0
+# Fallback to old name
+duckduckgo-search>=4.0.0
