@@ -1,0 +1,22 @@
+{
+  "tools": {
+    "web": {
+      "search": {
+        "enabled": false,
+        "comment": "Disabled Brave API - using DuckDuckGo skill instead"
+      }
+    },
+    "media": {
+      "audio": {
+        "enabled": true,
+        "scope": {
+          "default": "allow"
+        }
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto"
+  }
+}
