@@ -10,12 +10,29 @@ import sys
 import os
 import json
 
-# Resolve project root: use ANTIGRAVITY_ROOT env var, or auto-detect
-# relative to this script (../../ when in <project>/bot_skill/)
-PROJECT_ROOT = os.environ.get(
-    "ANTIGRAVITY_ROOT",
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-)
+# Resolve project root: ANTIGRAVITY_ROOT env > follow server.py symlink > known paths
+def _find_project_root():
+    # 1. Explicit env var
+    if os.environ.get("ANTIGRAVITY_ROOT"):
+        return os.environ["ANTIGRAVITY_ROOT"]
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # 2. Follow server.py symlink if it exists
+    symlink = os.path.join(script_dir, "server.py")
+    if os.path.islink(symlink):
+        target = os.path.realpath(symlink)
+        # server.py -> <root>/mcp_server/server.py  =>  root = ../..
+        return os.path.abspath(os.path.join(os.path.dirname(target), ".."))
+    # 3. Check if we're inside the project (bot_skill/ subfolder)
+    candidate = os.path.abspath(os.path.join(script_dir, ".."))
+    if os.path.isfile(os.path.join(candidate, "mcp_server", "server.py")):
+        return candidate
+    # 4. Known deployment path
+    for p in ["/root/ehealth-notebooklm-antigravity", os.path.expanduser("~/ehealth-notebooklm-antigravity")]:
+        if os.path.isdir(p):
+            return p
+    return script_dir
+
+PROJECT_ROOT = _find_project_root()
 sys.path.insert(0, PROJECT_ROOT)
 
 # Load environment from .env if not already set
